@@ -21,7 +21,7 @@ void Trans::selectLanguage(QString language)
                 )
             )
     {
-        qDebug() << "Failed to load translation file, falling back to English";
+        qDebug() << "Failed to load translation file, falling back to main language";
     }
     // it's a global thing, we can use it anywhere (after #including <QGuiApplication>)
     qApp->installTranslator(_translator);

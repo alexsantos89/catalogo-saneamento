@@ -2,12 +2,15 @@
 #include <QQmlApplicationEngine>
 #include <QtQml>
 #include "trans.h"
+#include "questionnode.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
+
+    qmlRegisterType<QuestionNode>("xyz.aahome89.base", 1, 0, "QuestionNode");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));

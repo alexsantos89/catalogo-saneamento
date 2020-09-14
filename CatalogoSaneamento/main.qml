@@ -2,6 +2,8 @@ import QtQuick 2.14
 import QtQuick.Window 2.14
 import QtQuick.Layouts 1.14
 import QtQuick.Controls 2.14
+import xyz.aahome89.base 1.0
+import "qml/popups"
 
 Window {
     visible: true
@@ -83,6 +85,14 @@ Window {
 
     Component.onCompleted: {
         flag_pt.state = "clicked";
+        rootNode.start_model();
+
+        /*rootNode.requestStart.connect(function() {
+            //popup.msg = get_rootNode().p_right.p_text
+            popup.msg = "rootNode.p_text"
+            popup.error = false
+            popup.open()
+        });*/
     }
 
     function highlightFlag(lang)
@@ -98,6 +108,28 @@ Window {
             flag_en.state = "default";
             break;
         }
+    }
+
+    QuestionNode {
+        id: rootNode
+        onParsedChanged: {
+            //rootNode = rootNode.get_rootNode()
+            //popup.msg = get_rootNode().p_right.p_text
+            //popup.msg = "rootNode.p_text"
+            //popup.error = false
+            //popup.open()
+        }
+        onRequestStart: {
+            //rootNode = rootNode.get_rootNode()
+            //popup.msg = get_rootNode().p_right.p_text
+            popup.msg = "rootNode.p_text"
+            popup.error = false
+            popup.open()
+        }
+    }
+
+    AlertPopup {
+        id: popup
     }
 
 }
