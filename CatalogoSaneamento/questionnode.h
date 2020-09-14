@@ -20,11 +20,11 @@ class QuestionNode : public QObject
     Q_PROPERTY(bool parsed MEMBER m_parsed NOTIFY parsedChanged)
 
 public:
-    explicit QuestionNode(unsigned int id, QString textPor, QObject *parent = nullptr);
+    explicit QuestionNode(unsigned int nodeId, QString textPor, QObject *parent = nullptr);
     explicit QuestionNode(QObject *parent = nullptr);
     QuestionNode* left() const;
     QuestionNode* right() const;
-    unsigned int id;
+    unsigned int nodeId;
     void set_left(QuestionNode* node);
     void set_right(QuestionNode* node);
     enum Language {Portuguese, English};
@@ -39,16 +39,14 @@ public:
 signals:
     void textChanged();
     void parsedChanged();
-    void requestStart();
 
 private:
     QString m_textPT;
     QString m_textEN;
     QString m_text;
-    QuestionNode* m_left;
-    QuestionNode* m_right;
+    QuestionNode* m_left = nullptr;
+    QuestionNode* m_right = nullptr;
     bool m_parsed;
-
 };
 
 #endif // QUESTIONNODE_H

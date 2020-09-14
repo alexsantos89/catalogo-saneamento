@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.14
 import QtQuick.Controls 2.14
 import xyz.aahome89.base 1.0
 import "qml/popups"
+import QtQuick.Dialogs 1.2
 
 Window {
     visible: true
@@ -86,8 +87,10 @@ Window {
     Component.onCompleted: {
         flag_pt.state = "clicked";
         rootNode.start_model();
+        msgDialog.actualNode = rootNode.get_rootNode();
+        msgDialog.open();
 
-        /*rootNode.requestStart.connect(function() {
+        /*rootNode.parsedChanged.connect(function() {
             //popup.msg = get_rootNode().p_right.p_text
             popup.msg = "rootNode.p_text"
             popup.error = false
@@ -112,7 +115,7 @@ Window {
 
     QuestionNode {
         id: rootNode
-        onParsedChanged: {
+        /*onParsedChanged: {
             //rootNode = rootNode.get_rootNode()
             //popup.msg = get_rootNode().p_right.p_text
             //popup.msg = "rootNode.p_text"
@@ -125,11 +128,39 @@ Window {
             popup.msg = "rootNode.p_text"
             popup.error = false
             popup.open()
-        }
+        }*/
     }
 
     AlertPopup {
         id: popup
+    }
+
+    MessageDialog {
+        id: msgDialog
+
+        property QuestionNode actualNode
+
+        title: "Alerta"
+        text: actualNode.p_text
+
+        standardButtons: StandardButton.Yes | StandardButton.No
+
+        onYes: {
+            if (actualNode.p_left)
+            {
+                actualNode = actualNode.p_left
+                msgDialog.visible = true
+            }
+        }
+
+        onNo: {
+            if (actualNode.p_right)
+            {
+                actualNode = actualNode.p_right
+                msgDialog.visible = true
+            }
+        }
+
     }
 
 }

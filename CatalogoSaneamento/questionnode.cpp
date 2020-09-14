@@ -1,6 +1,6 @@
 #include "questionnode.h"
 
-QuestionNode::QuestionNode(unsigned int id, QString text, QObject *parent) : QObject(parent) , id(id), m_text(text)
+QuestionNode::QuestionNode(unsigned int id, QString text, QObject *parent) : QObject(parent) , nodeId(id), m_text(text)
 {
 }
 
@@ -34,7 +34,7 @@ void QuestionNode::start_model()
     //initialize local and static variables
     QUrl fileURL = QUrl::fromLocalFile("resources/binary_tree.csv");
     m_parsed = false;
-    QVector<QStringList> parsedFileLines(5);
+    QVector<QStringList> parsedFileLines(200);
 
     QString fileName = QQmlFile::urlToLocalFileOrQrc(fileURL);
     fileName = QString("binary_tree.csv");
@@ -108,7 +108,6 @@ void QuestionNode::start_model()
     //return parsed true
     m_parsed = true;
     emit parsedChanged();
-    emit requestStart();
 
 }
 
@@ -118,5 +117,5 @@ QuestionNode *QuestionNode::get_rootNode()
 }
 
 //Initialize static members
-QVector<QuestionNode*> QuestionNode::nodesVector = QVector<QuestionNode*>(5,nullptr);
+QVector<QuestionNode*> QuestionNode::nodesVector = QVector<QuestionNode*>(200,nullptr);
 QuestionNode* QuestionNode::rootNode = nullptr;
