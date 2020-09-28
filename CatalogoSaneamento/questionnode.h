@@ -33,6 +33,7 @@ public:
     void start_model();
     Q_INVOKABLE
     QuestionNode *get_rootNode();
+    QString get_text() const;
     static QVector<QuestionNode*> nodesVector;
     static QuestionNode* rootNode;
 

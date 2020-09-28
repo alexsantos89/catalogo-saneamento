@@ -12,74 +12,146 @@ Window {
     height: 480
     title: qsTr("Catálogo Saneamento")
 
-    RowLayout {
-        anchors.horizontalCenter: parent.horizontalCenter
 
-        Button {
-            text: "EN"
-            Layout.preferredWidth: 76
-            Layout.preferredHeight: 53
+    ColumnLayout {
+        anchors.fill: parent
 
-            background: Rectangle {
-                id: flag_en
-                color: "grey"
-                radius: 5
+        RowLayout {
+            id: language
+            anchors.horizontalCenter: parent.horizontalCenter
+            //Layout.fillWidth: true
+            //Layout.fillHeight: true
 
-                states: [
-                    State {
-                        name: "default"
-                        PropertyChanges {
-                            target: flag_en;
-                            color: "grey"
+            Button {
+                text: "EN"
+                Layout.preferredWidth: 76
+                Layout.preferredHeight: 53
+
+                background: Rectangle {
+                    id: flag_en
+                    color: "grey"
+                    radius: 5
+
+                    states: [
+                        State {
+                            name: "default"
+                            PropertyChanges {
+                                target: flag_en;
+                                color: "grey"
+                            }
+                        },
+                        State {
+                            name: "clicked"
+                            PropertyChanges {
+                                target: flag_en;
+                                color: "#60BD51"
+                            }
                         }
-                    },
-                    State {
-                        name: "clicked"
-                        PropertyChanges {
-                            target: flag_en;
-                            color: "#60BD51"
-                        }
-                    }
-                ]
+                    ]
+                }
+
+                onClicked: {
+                    onClicked: trans.selectLanguage("en");
+                    highlightFlag("en");
+                }
             }
 
-            onClicked: {
-                onClicked: trans.selectLanguage("en");
-                highlightFlag("en");
+            Button {
+                text: "PT"
+                Layout.preferredWidth: 76
+                Layout.preferredHeight: 53
+
+                background: Rectangle {
+                    id: flag_pt
+                    color: "grey"
+                    radius: 5
+
+                    states: [
+                        State {
+                            name: "default"
+                            PropertyChanges {
+                                target: flag_pt;
+                                color: "grey"
+                            }
+                        },
+                        State {
+                            name: "clicked"
+                            PropertyChanges {
+                                target: flag_pt;
+                                color: "#60BD51"
+                            }
+                        }
+                    ]
+                }
+
+                onClicked: {
+                    onClicked: trans.selectLanguage("pt");
+                    highlightFlag("pt");
+                }
             }
         }
 
-        Button {
-            text: "PT"
-            Layout.preferredWidth: 76
-            Layout.preferredHeight: 53
+        ListView {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            anchors.top: language.bottom
+            anchors.bottom: pane.top
+            //Layout.margins: pane.leftPadding + messageField.leftPadding
+            Layout.margins: 40
+            displayMarginBeginning: 40
+            displayMarginEnd: 40
+            verticalLayoutDirection: ListView.BottomToTop
+            spacing: 12
+            model: 10
+            delegate: Row {
+                readonly property bool sentByMe: index % 2 == 0
 
-            background: Rectangle {
-                id: flag_pt
-                color: "grey"
-                radius: 5
+                anchors.right: sentByMe ? parent.right : undefined
+                spacing: 6
 
-                states: [
-                    State {
-                        name: "default"
-                        PropertyChanges {
-                            target: flag_pt;
-                            color: "grey"
-                        }
-                    },
-                    State {
-                        name: "clicked"
-                        PropertyChanges {
-                            target: flag_pt;
-                            color: "#60BD51"
-                        }
+                Rectangle {
+                    id: avatar
+                    width: height
+                    height: parent.height
+                    color: "grey"
+                    visible: !sentByMe
+                }
+
+                Rectangle {
+                    width: 80
+                    height: 40
+                    color: sentByMe ? "lightgrey" : "steelblue"
+
+                    Label {
+                        anchors.centerIn: parent
+                        text: index
+                        color: sentByMe ? "black" : "white"
                     }
-                ]
+                }
             }
 
-            onClicked: {
-                onClicked: trans.selectLanguage("pt");
-                highlightFlag("pt");
+            ScrollBar.vertical: ScrollBar {}
+        }
+
+        Pane {
+            id: pane
+            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+            Layout.fillWidth: false
+
+            RowLayout {
+                Button {
+                    id: yesButton
+                    text: qsTr("Sim")
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    //enabled: messageField.length > 0
+                }
+
+                Button {
+                    id: noButton
+                    text: qsTr("Não")
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    //enabled: messageField.length > 0
+                }
             }
         }
     }

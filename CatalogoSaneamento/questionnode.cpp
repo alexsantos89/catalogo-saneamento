@@ -116,6 +116,11 @@ QuestionNode *QuestionNode::get_rootNode()
     return rootNode;
 }
 
+QString QuestionNode::get_text() const
+{
+    return m_text;
+}
+
 //Initialize static members
 QVector<QuestionNode*> QuestionNode::nodesVector = QVector<QuestionNode*>(200,nullptr);
 QuestionNode* QuestionNode::rootNode = nullptr;

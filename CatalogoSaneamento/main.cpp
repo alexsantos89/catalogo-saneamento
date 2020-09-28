@@ -3,6 +3,7 @@
 #include <QtQml>
 #include "trans.h"
 #include "questionnode.h"
+#include "questionlistmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,6 +12,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<QuestionNode>("xyz.aahome89.base", 1, 0, "QuestionNode");
+    qmlRegisterType<QuestionListModel>("xyz.aahome89.base", 1, 0, "QuestionListModel");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
