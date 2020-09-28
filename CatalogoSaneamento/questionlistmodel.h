@@ -21,7 +21,8 @@ public:
     QHash<int, QByteArray> roleNames() const;
     int rowCount(const QModelIndex &parent) const;
 
-    void AppendNode(QuestionNode* questionNode);
+    Q_INVOKABLE
+    void appendQuestion(QuestionNode* questionNode);
 
 private:
     QList<QuestionNode*> m_questions;

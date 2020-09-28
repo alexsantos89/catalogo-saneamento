@@ -42,7 +42,7 @@ int QuestionListModel::rowCount(const QModelIndex &parent) const
     return m_questions.size();
 }
 
-void QuestionListModel::AppendNode(QuestionNode *questionNode)
+void QuestionListModel::appendQuestion(QuestionNode *questionNode)
 {
     int insertIndex = m_questions.size();
 

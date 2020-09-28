@@ -100,9 +100,9 @@ Window {
             Layout.margins: 40
             displayMarginBeginning: 40
             displayMarginEnd: 40
-            verticalLayoutDirection: ListView.BottomToTop
+            verticalLayoutDirection: ListView.TopToBottom
             spacing: 12
-            model: 10
+            model: questionModel
             delegate: Row {
                 readonly property bool sentByMe: index % 2 == 0
 
@@ -124,7 +124,8 @@ Window {
 
                     Label {
                         anchors.centerIn: parent
-                        text: index
+                        //text: index
+                        text: model.questionText
                         color: sentByMe ? "black" : "white"
                     }
                 }
@@ -159,6 +160,7 @@ Window {
     Component.onCompleted: {
         flag_pt.state = "clicked";
         rootNode.start_model();
+        questionModel.appendQuestion(rootNode.get_rootNode());
         msgDialog.actualNode = rootNode.get_rootNode();
         msgDialog.open();
 
@@ -203,6 +205,10 @@ Window {
         }*/
     }
 
+    QuestionListModel{
+        id: questionModel
+    }
+
     AlertPopup {
         id: popup
     }
@@ -221,6 +227,7 @@ Window {
             if (actualNode.p_left)
             {
                 actualNode = actualNode.p_left
+                questionModel.appendQuestion(actualNode)
                 msgDialog.visible = true
             }
         }
@@ -229,6 +236,7 @@ Window {
             if (actualNode.p_right)
             {
                 actualNode = actualNode.p_right
+                questionModel.appendQuestion(actualNode)
                 msgDialog.visible = true
             }
         }
