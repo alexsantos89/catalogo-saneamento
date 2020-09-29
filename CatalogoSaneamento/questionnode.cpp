@@ -6,7 +6,6 @@ QuestionNode::QuestionNode(unsigned int id, QString text, QObject *parent) : QOb
 
 QuestionNode::QuestionNode(QObject *parent) : QObject(parent)
 {
-
 }
 
 QuestionNode *QuestionNode::left() const
@@ -119,6 +118,11 @@ QuestionNode *QuestionNode::get_rootNode()
 QString QuestionNode::get_text() const
 {
     return m_text;
+}
+
+void QuestionNode::set_text(QString text)
+{
+    m_text = text;
 }
 
 //Initialize static members

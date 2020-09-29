@@ -34,6 +34,8 @@ public:
     Q_INVOKABLE
     QuestionNode *get_rootNode();
     QString get_text() const;
+    Q_INVOKABLE
+    void set_text(QString text);
     static QVector<QuestionNode*> nodesVector;
     static QuestionNode* rootNode;
 

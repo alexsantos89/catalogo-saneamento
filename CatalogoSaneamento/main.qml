@@ -12,6 +12,8 @@ Window {
     height: 480
     title: qsTr("Catálogo Saneamento")
 
+    property QuestionNode lastNode
+
 
     ColumnLayout {
         anchors.fill: parent
@@ -92,6 +94,7 @@ Window {
         }
 
         ListView {
+            id: listView
             Layout.fillWidth: true
             Layout.fillHeight: true
             anchors.top: language.bottom
@@ -103,32 +106,43 @@ Window {
             verticalLayoutDirection: ListView.TopToBottom
             spacing: 12
             model: questionModel
-            delegate: Row {
-                readonly property bool sentByMe: index % 2 == 0
-
+            delegate: Column {
                 anchors.right: sentByMe ? parent.right : undefined
                 spacing: 6
 
-                Rectangle {
-                    id: avatar
-                    width: height
-                    height: parent.height
-                    color: "grey"
-                    visible: !sentByMe
-                }
+                readonly property bool sentByMe: index % 2 == 1
 
-                Rectangle {
-                    width: 80
-                    height: 40
-                    color: sentByMe ? "lightgrey" : "steelblue"
+                Row {
+                    id: messageRow
+                    spacing: 6
+                    anchors.right: sentByMe ? parent.right : undefined
 
-                    Label {
-                        anchors.centerIn: parent
-                        //text: index
-                        text: model.questionText
-                        color: sentByMe ? "black" : "white"
+                    Rectangle {
+                        id: avatar
+                        width: height
+                        height: parent.height
+                        color: "grey"
+                        //visible: !sentByMe
+                        visible: false
+                    }
+
+                    Rectangle {
+                        width: Math.min(messageText.implicitWidth + 24,
+                            listView.width - (!sentByMe ? avatar.width + messageRow.spacing : 0))
+                        height: messageText.implicitHeight + 24
+                        color: sentByMe ? "lightgrey" : "steelblue"
+
+                        Label {
+                            id: messageText
+                            text: model.questionText
+                            color: sentByMe ? "black" : "white"
+                            anchors.fill: parent
+                            anchors.margins: 12
+                            wrapMode: Label.Wrap
+                        }
                     }
                 }
+
             }
 
             ScrollBar.vertical: ScrollBar {}
@@ -145,6 +159,13 @@ Window {
                     text: qsTr("Sim")
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     //enabled: messageField.length > 0
+                    onClicked: function () {
+                        lastNode = lastNode.p_left;
+                        var newQuestionNode = createQuestionNode();
+                        newQuestionNode.set_text(qsTr("Sim"));
+                        questionModel.appendQuestion(newQuestionNode);
+                        questionModel.appendQuestion(lastNode);
+                    }
                 }
 
                 Button {
@@ -152,6 +173,13 @@ Window {
                     text: qsTr("Não")
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     //enabled: messageField.length > 0
+                    onClicked: {
+                        lastNode = lastNode.p_right
+                        var newQuestionNode = createQuestionNode();
+                        newQuestionNode.set_text(qsTr("Não"));
+                        questionModel.appendQuestion(newQuestionNode);
+                        questionModel.appendQuestion(lastNode)
+                    }
                 }
             }
         }
@@ -160,16 +188,10 @@ Window {
     Component.onCompleted: {
         flag_pt.state = "clicked";
         rootNode.start_model();
-        questionModel.appendQuestion(rootNode.get_rootNode());
-        msgDialog.actualNode = rootNode.get_rootNode();
-        msgDialog.open();
-
-        /*rootNode.parsedChanged.connect(function() {
-            //popup.msg = get_rootNode().p_right.p_text
-            popup.msg = "rootNode.p_text"
-            popup.error = false
-            popup.open()
-        });*/
+        lastNode = rootNode.get_rootNode();
+        questionModel.appendQuestion(lastNode);
+        //msgDialog.actualNode = rootNode.get_rootNode();
+        //msgDialog.open();
     }
 
     function highlightFlag(lang)
@@ -187,33 +209,27 @@ Window {
         }
     }
 
+    function createQuestionNode() {
+        var component = Qt.createComponent("qrc:/qml/principais/MyQuestionNode.qml");
+        var question = component.createObject();
+
+        if (question === null) {
+            // Error Handling
+            console.log("Error creating object");
+        }
+
+        return question;
+    }
+
     QuestionNode {
         id: rootNode
-        /*onParsedChanged: {
-            //rootNode = rootNode.get_rootNode()
-            //popup.msg = get_rootNode().p_right.p_text
-            //popup.msg = "rootNode.p_text"
-            //popup.error = false
-            //popup.open()
-        }
-        onRequestStart: {
-            //rootNode = rootNode.get_rootNode()
-            //popup.msg = get_rootNode().p_right.p_text
-            popup.msg = "rootNode.p_text"
-            popup.error = false
-            popup.open()
-        }*/
     }
 
     QuestionListModel{
         id: questionModel
     }
 
-    AlertPopup {
-        id: popup
-    }
-
-    MessageDialog {
+    /*MessageDialog {
         id: msgDialog
 
         property QuestionNode actualNode
@@ -241,6 +257,6 @@ Window {
             }
         }
 
-    }
+    }*/
 
 }
