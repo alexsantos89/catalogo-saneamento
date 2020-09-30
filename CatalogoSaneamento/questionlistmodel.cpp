@@ -52,3 +52,10 @@ void QuestionListModel::appendQuestion(QuestionNode *questionNode)
 
     endInsertRows();
 }
+
+void QuestionListModel::refreshLanguage()
+{
+    beginResetModel();
+
+    endResetModel();
+}

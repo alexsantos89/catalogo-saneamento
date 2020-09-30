@@ -1,7 +1,7 @@
-0,O contexto é urbano?,Do the context is urban?,1,2
-1,O sistema é domiciliar?,3,5
-2,Resposta,4,6
-3,Questao 3,-1,-1
-4,Questao 4,-1,-1
-5,Questao 5,-1,-1
-6,Questao 6,-1,-1
+0,O contexto é urbano?,Does the context is urban?,1,2
+1,O sistema é domiciliar?,Does the system is household?,3,5
+2,Resposta,Answer,4,6
+3,Questao 3,Question 3,-1,-1
+4,Questao 4,Question 4,-1,-1
+5,Questao 5,Question 5,-1,-1
+6,Questao 6,Question 6,-1,-1

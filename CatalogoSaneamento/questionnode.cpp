@@ -1,6 +1,6 @@
 #include "questionnode.h"
 
-QuestionNode::QuestionNode(unsigned int id, QString text, QObject *parent) : QObject(parent) , nodeId(id), m_text(text)
+QuestionNode::QuestionNode(unsigned int id, QString textPor, QString textEn, QObject *parent) : QObject(parent) , nodeId(id), m_textPT(textPor), m_textEN(textEn)
 {
 }
 
@@ -57,7 +57,7 @@ void QuestionNode::start_model()
                     return;
                 }
                 parsedFileLines[id] = v;
-                nodesVector[id] = new QuestionNode(id,v.at(1));
+                nodesVector[id] = new QuestionNode(id,v.at(1),v.at(2));
             }
         }
     }
@@ -84,8 +84,8 @@ void QuestionNode::start_model()
         }
 
         //get the left and right ids
-        int leftId = parsedFileLines[i].at(2).toInt(&flag1);
-        int rightId = parsedFileLines[i].at(3).toInt(&flag2);
+        int leftId = parsedFileLines[i].at(3).toInt(&flag1);
+        int rightId = parsedFileLines[i].at(4).toInt(&flag2);
 
         //If the csv file has wrong syntax for children id then return
         if(!flag1 || !flag2)
@@ -117,14 +117,30 @@ QuestionNode *QuestionNode::get_rootNode()
 
 QString QuestionNode::get_text() const
 {
-    return m_text;
+    if (actualLanguage == Portuguese)
+    {
+        return m_textPT;
+    }
+    else if (actualLanguage == English)
+    {
+        return m_textEN;
+    }
+
+    return m_textPT;
 }
 
-void QuestionNode::set_text(QString text)
+void QuestionNode::set_text(QString textPor, QString textEn)
 {
-    m_text = text;
+    m_textPT = textPor;
+    m_textEN = textEn;
+}
+
+void QuestionNode::set_language(QuestionNode::Language language)
+{
+    actualLanguage = language;
 }
 
 //Initialize static members
 QVector<QuestionNode*> QuestionNode::nodesVector = QVector<QuestionNode*>(200,nullptr);
 QuestionNode* QuestionNode::rootNode = nullptr;
+QuestionNode::Language QuestionNode::actualLanguage = Portuguese;

@@ -103,6 +103,7 @@ Window {
             Layout.margins: 40
             displayMarginBeginning: 40
             displayMarginEnd: 40
+            clip: true
             verticalLayoutDirection: ListView.TopToBottom
             spacing: 12
             model: questionModel
@@ -162,7 +163,7 @@ Window {
                     onClicked: function () {
                         lastNode = lastNode.p_left;
                         var newQuestionNode = createQuestionNode();
-                        newQuestionNode.set_text(qsTr("Sim"));
+                        newQuestionNode.set_text("Sim","Yes");
                         questionModel.appendQuestion(newQuestionNode);
                         questionModel.appendQuestion(lastNode);
                     }
@@ -173,12 +174,12 @@ Window {
                     text: qsTr("Não")
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     //enabled: messageField.length > 0
-                    onClicked: {
+                    onClicked: function () {
                         lastNode = lastNode.p_right
                         var newQuestionNode = createQuestionNode();
-                        newQuestionNode.set_text(qsTr("Não"));
+                        newQuestionNode.set_text("Não","No");
                         questionModel.appendQuestion(newQuestionNode);
-                        questionModel.appendQuestion(lastNode)
+                        questionModel.appendQuestion(lastNode);
                     }
                 }
             }
@@ -201,10 +202,14 @@ Window {
         case "en":
             flag_en.state = "clicked";
             flag_pt.state = "default";
+            rootNode.set_language(QuestionNode.English);
+            questionModel.refreshLanguage();
             break;
         case "pt":
             flag_pt.state = "clicked";
             flag_en.state = "default";
+            rootNode.set_language(QuestionNode.Portuguese);
+            questionModel.refreshLanguage();
             break;
         }
     }

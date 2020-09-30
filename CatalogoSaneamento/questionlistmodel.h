@@ -24,6 +24,9 @@ public:
     Q_INVOKABLE
     void appendQuestion(QuestionNode* questionNode);
 
+    Q_INVOKABLE
+    void refreshLanguage();
+
 private:
     QList<QuestionNode*> m_questions;
 
