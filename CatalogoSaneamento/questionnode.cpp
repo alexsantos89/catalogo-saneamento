@@ -36,7 +36,6 @@ void QuestionNode::start_model()
     QVector<QStringList> parsedFileLines(200);
 
     QString fileName = QQmlFile::urlToLocalFileOrQrc(fileURL);
-    fileName = QString("binary_tree.csv");
     if (QFile::exists(fileName)) {
         QFile file(fileName);
         if (file.open(QFile::ReadOnly)) {

@@ -28,5 +28,8 @@ int main(int argc, char *argv[])
     // make this object available from QML side
     engine.rootContext()->setContextProperty("trans", &trans);
 
+    // used to reference files inside QML
+    engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
+
     return app.exec();
 }

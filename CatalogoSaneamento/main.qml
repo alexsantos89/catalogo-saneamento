@@ -161,11 +161,17 @@ Window {
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     //enabled: messageField.length > 0
                     onClicked: function () {
+                        if (lastNode.p_left == undefined)
+                        {
+                            popup.open();
+                            return;
+                        }
                         lastNode = lastNode.p_left;
                         var newQuestionNode = createQuestionNode();
                         newQuestionNode.set_text("Sim","Yes");
                         questionModel.appendQuestion(newQuestionNode);
                         questionModel.appendQuestion(lastNode);
+
                     }
                 }
 
@@ -175,6 +181,11 @@ Window {
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     //enabled: messageField.length > 0
                     onClicked: function () {
+                        if (lastNode.p_right == undefined)
+                        {
+                            popup.open();
+                            return;
+                        }
                         lastNode = lastNode.p_right
                         var newQuestionNode = createQuestionNode();
                         newQuestionNode.set_text("Não","No");
@@ -237,10 +248,11 @@ Window {
     /*MessageDialog {
         id: msgDialog
 
-        property QuestionNode actualNode
-
-        title: "Alerta"
-        text: actualNode.p_text
+        title: qsTr("Catálogo PDF")
+        text: Text {
+            text: "Estes são os catálogos correspondentes: \n <a href='resources/1.pdf'>clique aqui.</a>"
+            onLinkActivated: Qt.openUrlExternally(link)
+        }
 
         standardButtons: StandardButton.Yes | StandardButton.No
 
@@ -263,5 +275,25 @@ Window {
         }
 
     }*/
+
+    Popup {
+        id: popup
+        x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+        //width: 200
+        //height: 300
+        modal: true
+        focus: true
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+        Text {
+            text: "Estes são os catálogos correspondentes: <a href='/resources/1.pdf'>clique aqui.</a>"
+            onLinkActivated: {
+                Qt.openUrlExternally(applicationDirPath + link)
+                console.log("file:///" + applicationDirPath + "/../resources/1.pdf");
+            }
+        }
+
+    }
 
 }
