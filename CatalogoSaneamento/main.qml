@@ -107,6 +107,10 @@ Window {
             verticalLayoutDirection: ListView.TopToBottom
             spacing: 12
             model: questionModel
+            onCountChanged: function () {
+                listView.positionViewAtEnd();
+                listView.currentIndex = listView.count - 1;
+            }
             delegate: Column {
                 anchors.right: sentByMe ? parent.right : undefined
                 spacing: 6
@@ -151,27 +155,46 @@ Window {
 
         Pane {
             id: pane
-            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-            Layout.fillWidth: false
+            Layout.fillWidth: true
 
             RowLayout {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.rightMargin: 5
+                anchors.leftMargin: 5
+
+
+                Button {
+                    id: resetButton
+                    text: qsTr("Reset")
+                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                    //enabled: messageField.length > 0
+                    onClicked: function () {
+                        questionModel.refreshModel();
+                        lastNode = rootNode.get_rootNode();
+                        questionModel.appendQuestion(lastNode);
+                        noButton.enabled = true;
+                        yesButton.enabled = true;
+                    }
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+                }
+
                 Button {
                     id: yesButton
                     text: qsTr("Sim")
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     //enabled: messageField.length > 0
                     onClicked: function () {
-                        if (lastNode.p_left == undefined)
-                        {
-                            popup.open();
-                            return;
-                        }
                         lastNode = lastNode.p_left;
                         var newQuestionNode = createQuestionNode();
                         newQuestionNode.set_text("Sim","Yes");
                         questionModel.appendQuestion(newQuestionNode);
                         questionModel.appendQuestion(lastNode);
-
+                        if (lastNode.p_left == undefined)
+                            showPopup()
                     }
                 }
 
@@ -181,16 +204,13 @@ Window {
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     //enabled: messageField.length > 0
                     onClicked: function () {
-                        if (lastNode.p_right == undefined)
-                        {
-                            popup.open();
-                            return;
-                        }
                         lastNode = lastNode.p_right
                         var newQuestionNode = createQuestionNode();
                         newQuestionNode.set_text("Não","No");
                         questionModel.appendQuestion(newQuestionNode);
                         questionModel.appendQuestion(lastNode);
+                        if (lastNode.p_right == undefined)
+                            showPopup()
                     }
                 }
             }
@@ -202,8 +222,6 @@ Window {
         rootNode.start_model();
         lastNode = rootNode.get_rootNode();
         questionModel.appendQuestion(lastNode);
-        //msgDialog.actualNode = rootNode.get_rootNode();
-        //msgDialog.open();
     }
 
     function highlightFlag(lang)
@@ -245,37 +263,6 @@ Window {
         id: questionModel
     }
 
-    /*MessageDialog {
-        id: msgDialog
-
-        title: qsTr("Catálogo PDF")
-        text: Text {
-            text: "Estes são os catálogos correspondentes: \n <a href='resources/1.pdf'>clique aqui.</a>"
-            onLinkActivated: Qt.openUrlExternally(link)
-        }
-
-        standardButtons: StandardButton.Yes | StandardButton.No
-
-        onYes: {
-            if (actualNode.p_left)
-            {
-                actualNode = actualNode.p_left
-                questionModel.appendQuestion(actualNode)
-                msgDialog.visible = true
-            }
-        }
-
-        onNo: {
-            if (actualNode.p_right)
-            {
-                actualNode = actualNode.p_right
-                questionModel.appendQuestion(actualNode)
-                msgDialog.visible = true
-            }
-        }
-
-    }*/
-
     Popup {
         id: popup
         x: Math.round((parent.width - width) / 2)
@@ -286,14 +273,66 @@ Window {
         focus: true
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
-        Text {
-            text: "Estes são os catálogos correspondentes: <a href='/resources/1.pdf'>clique aqui.</a>"
-            onLinkActivated: {
-                Qt.openUrlExternally(applicationDirPath + link)
-                console.log("file:///" + applicationDirPath + "/../resources/1.pdf");
+        ColumnLayout {
+            anchors.fill: parent
+
+            Image {
+                id: image1
+                anchors.left: parent.left
+                anchors.right: parent.right
+                horizontalAlignment: Image.AlignHCenter
+                verticalAlignment: Image.AlignVCenter
+                source: "file:///" + applicationDirPath + "/resources/pdf_icon.png"
+                fillMode: Image.PreserveAspectFit
+
+            }
+
+            Text {
+                text: qsTr("Estes são os catálogos correspondentes:")
+            }
+
+            Text {
+                text: "<a href='/resources/1.pdf'>exemplo1.pdf</a>"
+                //text: "Estes são os catálogos correspondentes: <a href='/resources/1.pdf'><img width=\"32\" height=\"32\" align=\"middle\" src=\"http://vk.com/images/emoji/D83DDE0E.png\"></a>"
+                //text: "<a href='/resources/1.pdf'><img src=\"file:///" + applicationDirPath + "/resources/pdf_icon.png\"></a>"
+                onLinkActivated: {
+                    Qt.openUrlExternally(applicationDirPath + link)
+                    console.log("file:///" + applicationDirPath + "/../resources/1.pdf");
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.NoButton // we don't want to eat clicks on the Text
+                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                }
+            }
+
+            Text {
+                text: "<a href='/resources/A3.pdf'>exemplo2.pdf</a>"
+                //text: "Estes são os catálogos correspondentes: <a href='/resources/A3.pdf'><img width=\"32\" height=\"32\" align=\"middle\" src=\"http://vk.com/images/emoji/D83DDE0E.png\"></a>"
+                //text: "<a href='/resources/A3.pdf'><img src=\"file:///" + applicationDirPath + "/resources/pdf_icon.png\">fdsa</a>"
+                onLinkActivated: {
+                    Qt.openUrlExternally(applicationDirPath + link)
+                    console.log("file:///" + applicationDirPath + "/../resources/1.pdf");
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.NoButton // we don't want to eat clicks on the Text
+                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                }
+            }
+
+            Text {
+                text: qsTr("OBS: Necessário possuir Leitor de PDF Instalado.")
             }
         }
+    }
 
+    function showPopup() {
+        noButton.enabled = false;
+        yesButton.enabled = false;
+        popup.open();
     }
 
 }

@@ -1,7 +1,29 @@
-0,O contexto Ã© urbano?,Does the context is urban?,1,2
-1,O sistema Ã© domiciliar?,Does the system is household?,3,5
-2,Resposta,Answer,4,6
-3,Questao 3,Question 3,-1,-1
-4,Questao 4,Question 4,-1,-1
-5,Questao 5,Question 5,-1,-1
-6,Questao 6,Question 6,-1,-1
+0,O contexto é urbano?,Does the context is urban?,1,2
+1,O sistema é domiciliar?,Does the system is household?,3,4
+2,O contexto é periurbano ou rural?,Question 2,3,0
+3,O esgoto doméstico é sem separação?,Question 3,5,6
+4,Fim,End,-1,-1
+5,Há descarga com água proveniente da instalação predial?,Question 5,7,8
+6,Apenas a água cinza é separada do esgoto doméstico?,Question 6,9,10
+7,O lençol freático é raso?,Question 7,11,12
+8,Há descarga manual?,Question 8,13,13
+9,Há descarga com água proveniente da instalação predial?,Question 9,14,15
+10,A usina é separada das fezes e da água cinza?,Question 10,16,3
+11,Fim,End,-1,-1
+12,Fim ,End,-1,-1
+13,O lençol freático é raso?,Question 13,17,18
+14,O lençol freático é raso?,Question 14,19,20
+15,É sem descarga?,Question 15,21,22
+16,Há descarga com água proveniente da instalação predial?,Question 16,23,24
+17,Fim,End,-1,-1
+18,Fim,End,-1,-1
+19,Fim,End,-1,-1
+20,Fim,End,-1,-1
+21,Fim,End,-1,-1
+22,Há descarga manual?,Question 22,25,25
+23,Fim,End,-1,-1
+24,É sem descarga?,Question 24,26,27
+25,Fim,End,-1,-1
+26,Fim,End,-1,-1
+27,Há descarga manual?,Question 27,28,28
+28,Fim,End,-1,-1

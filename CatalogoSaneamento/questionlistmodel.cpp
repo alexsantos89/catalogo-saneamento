@@ -59,3 +59,10 @@ void QuestionListModel::refreshLanguage()
 
     endResetModel();
 }
+
+void QuestionListModel::refreshModel()
+{
+    beginResetModel();
+    m_questions.clear();
+    endResetModel();
+}

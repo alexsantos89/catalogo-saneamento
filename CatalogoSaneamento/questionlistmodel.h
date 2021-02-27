@@ -27,6 +27,9 @@ public:
     Q_INVOKABLE
     void refreshLanguage();
 
+    Q_INVOKABLE
+    void refreshModel();
+
 private:
     QList<QuestionNode*> m_questions;
 

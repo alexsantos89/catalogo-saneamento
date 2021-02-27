@@ -15,5 +15,13 @@
         <source>Não</source>
         <translation>No</translation>
     </message>
+    <message>
+        <source>Estes são os catálogos correspondentes:</source>
+        <translation>These are the corresponding catalogs:</translation>
+    </message>
+    <message>
+        <source>OBS: Necessário possuir Leitor de PDF Instalado.</source>
+        <translation>NOTE: Required to have PDF reader installed.</translation>
+    </message>
 </context>
 </TS>
