@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>qml/popups/AlertPopup.qml</file>
         <file>qml/principais/MyQuestionNode.qml</file>
+        <file>qml/popups/PDFPopup.qml</file>
     </qresource>
 </RCC>

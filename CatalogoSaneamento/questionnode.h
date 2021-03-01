@@ -18,6 +18,7 @@ class QuestionNode : public QObject
     Q_PROPERTY(QuestionNode* p_left READ left)
     Q_PROPERTY(QuestionNode* p_right READ right)
     Q_PROPERTY(bool parsed MEMBER m_parsed NOTIFY parsedChanged)
+    Q_PROPERTY(unsigned int p_id MEMBER nodeId)
 
 public:
     explicit QuestionNode(unsigned int nodeId, QString textPor, QString textEn, QObject *parent = nullptr);

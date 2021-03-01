@@ -7,6 +7,7 @@ import "qml/popups"
 import QtQuick.Dialogs 1.2
 
 Window {
+    id: mainWindow
     visible: true
     width: 640
     height: 480
@@ -263,76 +264,17 @@ Window {
         id: questionModel
     }
 
-    Popup {
+    PDFPopup {
         id: popup
-        x: Math.round((parent.width - width) / 2)
-        y: Math.round((parent.height - height) / 2)
-        //width: 200
-        //height: 300
-        modal: true
-        focus: true
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-
-        ColumnLayout {
-            anchors.fill: parent
-
-            Image {
-                id: image1
-                anchors.left: parent.left
-                anchors.right: parent.right
-                horizontalAlignment: Image.AlignHCenter
-                verticalAlignment: Image.AlignVCenter
-                source: "file:///" + applicationDirPath + "/resources/pdf_icon.png"
-                fillMode: Image.PreserveAspectFit
-
-            }
-
-            Text {
-                text: qsTr("Estes são os catálogos correspondentes:")
-            }
-
-            Text {
-                text: "<a href='/resources/1.pdf'>exemplo1.pdf</a>"
-                //text: "Estes são os catálogos correspondentes: <a href='/resources/1.pdf'><img width=\"32\" height=\"32\" align=\"middle\" src=\"http://vk.com/images/emoji/D83DDE0E.png\"></a>"
-                //text: "<a href='/resources/1.pdf'><img src=\"file:///" + applicationDirPath + "/resources/pdf_icon.png\"></a>"
-                onLinkActivated: {
-                    Qt.openUrlExternally(applicationDirPath + link)
-                    console.log("file:///" + applicationDirPath + "/../resources/1.pdf");
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.NoButton // we don't want to eat clicks on the Text
-                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-                }
-            }
-
-            Text {
-                text: "<a href='/resources/A3.pdf'>exemplo2.pdf</a>"
-                //text: "Estes são os catálogos correspondentes: <a href='/resources/A3.pdf'><img width=\"32\" height=\"32\" align=\"middle\" src=\"http://vk.com/images/emoji/D83DDE0E.png\"></a>"
-                //text: "<a href='/resources/A3.pdf'><img src=\"file:///" + applicationDirPath + "/resources/pdf_icon.png\">fdsa</a>"
-                onLinkActivated: {
-                    Qt.openUrlExternally(applicationDirPath + link)
-                    console.log("file:///" + applicationDirPath + "/../resources/1.pdf");
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.NoButton // we don't want to eat clicks on the Text
-                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-                }
-            }
-
-            Text {
-                text: qsTr("OBS: Necessário possuir Leitor de PDF Instalado.")
-            }
-        }
+        x: Math.round((mainWindow.width - width) / 2)
+        y: Math.round((mainWindow.height - height) / 2)
     }
 
     function showPopup() {
         noButton.enabled = false;
         yesButton.enabled = false;
-        popup.open();
+        popup.questionIdNode = lastNode.p_id;
+        popup.refresh();
     }
 
 }

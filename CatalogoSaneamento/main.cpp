@@ -4,6 +4,7 @@
 #include "trans.h"
 #include "questionnode.h"
 #include "questionlistmodel.h"
+#include "pdflistmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +14,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<QuestionNode>("xyz.aahome89.base", 1, 0, "QuestionNode");
     qmlRegisterType<QuestionListModel>("xyz.aahome89.base", 1, 0, "QuestionListModel");
+    qmlRegisterType<PdfListModel>("xyz.aahome89.base", 1, 0, "PdfListModel");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
