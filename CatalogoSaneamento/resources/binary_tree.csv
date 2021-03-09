@@ -8,7 +8,7 @@
 7,O lençol freático é raso?,Question 7,11,12
 8,Há descarga manual?,Question 8,13,13
 9,Há descarga com água proveniente da instalação predial?,Question 9,14,15
-10,A usina é separada das fezes e da água cinza?,Question 10,16,3
+10,A urina é separada das fezes e da água cinza?,Question 10,16,3
 11,Fim,End,-1,-1
 12,Fim ,End,-1,-1
 13,O lençol freático é raso?,Question 13,17,18

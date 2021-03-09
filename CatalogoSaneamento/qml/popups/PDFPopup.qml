@@ -10,6 +10,10 @@ Popup {
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
     property int questionIdNode
+    implicitWidth: 340
+    implicitHeight: 280
+//    contentWidth: view.implicitWidth
+//    contentHeight: view.implicitHeight
 
     ColumnLayout {
         anchors.fill: parent
@@ -83,3 +87,9 @@ Popup {
         popup.open();
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
